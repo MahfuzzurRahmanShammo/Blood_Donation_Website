@@ -28,7 +28,7 @@ const BloodRequest = () => {
   const { user } = auth;
 
   const onSubmit = (data: FormData) => {
-    // console.log(data);
+    console.log(data);
     const { phone, bloodGroup, location, time, bloodBag, patientName } = data;
 
     const request = {

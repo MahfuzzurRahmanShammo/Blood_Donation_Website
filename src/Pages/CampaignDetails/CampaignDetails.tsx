@@ -120,7 +120,7 @@ const CampaignDetails: React.FC = () => {
                       </div>
                       <button
                         onClick={openDonationModal}
-                        className="btn btnStyle px-9 hidden"
+                        className="btn btnStyle px-9"
                       >
                         Donate for this Campaign!
                       </button>

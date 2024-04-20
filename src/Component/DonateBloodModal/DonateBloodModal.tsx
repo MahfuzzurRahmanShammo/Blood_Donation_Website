@@ -71,7 +71,7 @@ const DonateBloodModal: React.FC<donateBloodModalProps> = ({
         const donateData = { email, bloodreqId, bloodBag, date: donateTime }
 
 
-        console.log(donateData)
+        // console.log(donateData)
         axiosPublic.post('/donateonbloodreq', donateData)
             .then(res => {
                 closeModal();

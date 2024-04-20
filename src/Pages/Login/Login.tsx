@@ -1,10 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { FirebaseError } from "firebase/app";
+import SocialLogin from "../../Component/SocialLogin/SocialLogin";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -21,11 +22,11 @@ const initialValues = {
 const Login: React.FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = (values: typeof initialValues) => {
     const email = values.email;
     const password = values.password;
-    console.log(email, password);
 
     if (auth) {
       const { userLogin } = auth;
@@ -36,7 +37,9 @@ const Login: React.FC = () => {
             title: "Login Successful",
             icon: "success",
           });
-          navigate("/");
+
+          // navigate after login
+          navigate(location?.state ? location.state : "/");
         })
         .catch((error: FirebaseError) => {
           console.log(error);
@@ -49,22 +52,26 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="container mx-auto py-32">
-        <h3 className="text-center text-4xl font-bold mb-16">Please Login</h3>
-        <div>
+    <div className="container mx-auto">
+      {/* overlay div */}
+      <div className="py-32">
+        <div
+          style={{ boxShadow: "0px 3px 14px 6px rgba(0,0,0,0.28)" }}
+          className="card-body rounded-lg w-[95%] sm:w-3/4 2xl:w-3/5 mx-auto bg-white py-16"
+        >
+          <h3 className="text-center text-4xl font-bold mb-8">Please Login</h3>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form className="card-body border rounded-lg w-3/4 2xl:w-3/5 mx-auto">
+            <Form>
               <div className="form-control font-semibold">
                 <label className="label">
                   <span>Email</span>
                 </label>
                 <Field
-                  className="input input-bordered"
+                  className="input input-bordered bg-transparent"
                   type="email"
                   id="email"
                   placeholder="Email"
@@ -81,7 +88,7 @@ const Login: React.FC = () => {
                   <span>Password</span>
                 </label>
                 <Field
-                  className="input input-bordered"
+                  className="input input-bordered bg-transparent"
                   type="password"
                   id="password"
                   name="password"
@@ -101,7 +108,7 @@ const Login: React.FC = () => {
                       className="register-link text-blue-700 hover:font-bold"
                       to="/register"
                     >
-                      Register
+                      Sign Up
                     </Link>
                   </span>
                 </p>
@@ -109,11 +116,12 @@ const Login: React.FC = () => {
               <div className="form-control mt-6">
                 <button
                   type="submit"
-                  className="btn bg-[#EA062B] text-white hover:bg-[#EA062B]"
+                  className="btn btn-outline bg-[#EA062B] text-white"
                 >
                   Login
                 </button>
               </div>
+              <SocialLogin></SocialLogin>
             </Form>
           </Formik>
         </div>

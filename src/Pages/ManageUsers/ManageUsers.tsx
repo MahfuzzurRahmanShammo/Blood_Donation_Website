@@ -28,7 +28,7 @@ const ManageUsers: React.FC = () => {
             return res.data
         }
     })
-    // console.log(allUsers?.users);
+    console.log(allUsers?.users);
     const AllUsers = allUsers?.users
 
     const handleUserDelete = (id: string) => {
@@ -46,7 +46,7 @@ const ManageUsers: React.FC = () => {
             if (result.isConfirmed) {
                 axiosPublic.delete(`https://blood-bound.vercel.app/userdelete/${id}`)
                     .then(res => {
-                        // console.log(res.data);
+                        console.log(res.data);
                         if (res.data.message) {
                             Swal.fire({
                                 title: "Deleted!",
